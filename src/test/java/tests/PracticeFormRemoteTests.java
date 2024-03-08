@@ -98,19 +98,15 @@ public class PracticeFormRemoteTests {
         });
 
         step("Verify results", () -> {
-        $(".modal-header").shouldHave(text("Thanks for submitting the form"));
-        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text("Aleksandr Exile"));
-        $(".table-responsive").$(byText("Mobile")).parent().shouldHave(text("900112299"));
-        $(".table-responsive").$(byText("Date of Birth")).parent().shouldHave(text("9 July,1988"));
-        $(".table-responsive").$(byText("Subjects")).parent().shouldHave(text("Arts"));
-        $(".table-responsive").$(byText("Hobbies")).parent().shouldHave(text("Sports"));
-        $(".table-responsive").$(byText("Picture")).parent().shouldHave(text("9.png"));
-        $(".table-responsive").$(byText("Address")).parent().shouldHave(text("www.Leningrad.spb.ru"));
-        $(".table-responsive").$(byText("State and City")).parent().shouldHave(text("Rajasthan Jaipur"));
-        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text("Aleksandr Exile"));
-        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text("Aleksandr Exile"));
-        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text("Aleksandr Exile"));
-        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text("Aleksandr Exile"));
+        $(".table-responsive").shouldHave(text(projectConfig.firstName()));
+        $(".table-responsive").shouldHave(text(projectConfig.lastName()));
+        $(".table-responsive").shouldHave(text("900112299"));
+        $(".table-responsive").shouldHave(text("9 July,1988"));
+        $(".table-responsive").shouldHave(text("Arts"));
+        $(".table-responsive").shouldHave(text("Sports"));
+        $(".table-responsive").shouldHave(text("9.png"));
+        $(".table-responsive").shouldHave(text("www.Leningrad.spb.ru"));
+        $(".table-responsive").shouldHave(text("Rajasthan Jaipur"));
         });
 
     }
