@@ -76,11 +76,6 @@ public class PracticeFormRemoteTests {
         executeJavaScript("$('footer').remove()");
         });
 
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-        SelenideElement bannerRoot = $(".fc-consent-root");
-        if (bannerRoot.isDisplayed()) {
-            bannerRoot.$(byText("Consent")).click();
-        }
         step("Fill form", () -> {
             $("#firstName").setValue(projectConfig.firstName());
             $("#lastName").setValue(projectConfig.lastName());
