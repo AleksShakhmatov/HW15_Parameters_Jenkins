@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.aeonbits.owner.ConfigFactory;
+import config.ProjectConfig;
 
 import java.util.Map;
 
@@ -18,15 +20,23 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
+
+@Tag("properties_task")
 public class PracticeFormRemoteTests {
 
     @BeforeAll
     static void beforeAll() {
+        System.setProperty("environment", System.getProperty("environment", "prod"));
+
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1920x1080";
-        //Configuration.pageLoadStrategy = "eager";
-        Configuration.timeout = 100000;
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        Configuration.pageLoadStrategy = "eager";
+        Configuration.browser = System.getProperty("browser", "chrome");
+        Configuration.browserVersion = System.getProperty("browserVersion", "100.0");
+        Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
+        Configuration.remote = System.getProperty("browserRemoteUrl");
+        //Configuration.timeout = 100000;
+        //Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
@@ -50,21 +60,25 @@ public class PracticeFormRemoteTests {
     @Test
     @Tag("demoqa")
     void successfulRegistrationTest() {
+
+        ProjectConfig projectConfig = ConfigFactory.create(ProjectConfig.class);
+
         step("Open form", () -> {
         open("/automation-practice-form");
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
             SelenideElement bannerRoot = $(".fc-consent-root");
             if (bannerRoot.isDisplayed()) {
                 bannerRoot.$(byText("Consent")).click();
             }
+        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
+
         //$(".fc-button-label").click();
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
         });
 
         step("Fill form", () -> {
-        $("#firstName").setValue("Aleksandr");
-        $("#lastName").setValue("Exile");
+            $("#firstName").setValue(projectConfig.firstName());
+            $("#lastName").setValue(projectConfig.lastName());
         $("#userEmail").setValue("AleksandrExile@gmail.com");
         $("#genterWrapper").$(byText("Male")).click();
         $("#userNumber").setValue("9001122999");
