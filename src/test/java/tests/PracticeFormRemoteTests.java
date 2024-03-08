@@ -58,7 +58,7 @@ public class PracticeFormRemoteTests {
     }
 
     @Test
-    @Tag("demoqa")
+    @Tag("properties_task")
     void successfulRegistrationTest() {
 
         ProjectConfig projectConfig = ConfigFactory.create(ProjectConfig.class);
