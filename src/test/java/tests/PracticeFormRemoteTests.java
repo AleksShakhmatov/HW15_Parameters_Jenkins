@@ -31,12 +31,12 @@ public class PracticeFormRemoteTests {
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1920x1080";
         Configuration.pageLoadStrategy = "eager";
+        Configuration.timeout = 100000;
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.browserVersion = System.getProperty("browserVersion", "100.0");
         Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
         Configuration.remote = System.getProperty("browserRemoteUrl");
-        //Configuration.timeout = 100000;
-        //Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
@@ -66,14 +66,14 @@ public class PracticeFormRemoteTests {
         step("Open form", () -> {
         open("/automation-practice-form");
 
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
             SelenideElement bannerRoot = $(".fc-consent-root");
             if (bannerRoot.isDisplayed()) {
                 bannerRoot.$(byText("Consent")).click();
             }
-
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
+
+        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
         });
 
         step("Fill form", () -> {
