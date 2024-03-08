@@ -65,17 +65,22 @@ public class PracticeFormRemoteTests {
 
         step("Open form", () -> {
         open("/automation-practice-form");
+
+        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
             SelenideElement bannerRoot = $(".fc-consent-root");
             if (bannerRoot.isDisplayed()) {
                 bannerRoot.$(byText("Consent")).click();
             }
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
 
-        //$(".fc-button-label").click();
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
         });
 
+        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
+        SelenideElement bannerRoot = $(".fc-consent-root");
+        if (bannerRoot.isDisplayed()) {
+            bannerRoot.$(byText("Consent")).click();
+        }
         step("Fill form", () -> {
             $("#firstName").setValue(projectConfig.firstName());
             $("#lastName").setValue(projectConfig.lastName());
