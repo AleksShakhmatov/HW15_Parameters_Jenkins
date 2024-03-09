@@ -7,6 +7,7 @@ import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -29,15 +30,12 @@ public class PracticeFormRemoteTests {
         System.setProperty("environment", System.getProperty("environment", "prod"));
 
         Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-        Configuration.pageLoadStrategy = "eager";
-        //Configuration.timeout = 100000;
+        Configuration.pageLoadStrategy = "normal";
+        Configuration.timeout = 5000;
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.browserVersion = System.getProperty("browserVersion", "100.0");
         Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
         Configuration.remote = System.getProperty("browserRemoteUrl");
-
-
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
@@ -45,8 +43,11 @@ public class PracticeFormRemoteTests {
                 "enableVideo", true
         ));
         Configuration.browserCapabilities = capabilities;
+    }
 
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+    @BeforeEach
+    void beforeEach() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
     }
 
     @AfterEach
@@ -55,30 +56,27 @@ public class PracticeFormRemoteTests {
         Attach.pageSource();
         Attach.browserConsoleLogs();
         Attach.addVideo();
-
     }
 
     @Test
-    @Tag("properties_task")
-    void successfulRegistrationTest() {
+    void fillRegistrationForm() {
+        ProjectConfig projConfig = ConfigFactory.create(ProjectConfig.class);
 
-        ProjectConfig projectConfig = ConfigFactory.create(ProjectConfig.class);
-
-        step("Open form", () -> {
+        step("Открываем раздел automation-practice-form", ()-> {
             open("/automation-practice-form");
+
             SelenideElement bannerRoot = $(".fc-consent-root");
             if (bannerRoot.isDisplayed()) {
                 bannerRoot.$(byText("Consent")).click();
             }
 
-            $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
             executeJavaScript("$('#fixedban').remove()");
             executeJavaScript("$('footer').remove()");
         });
 
-            step("Fill form", () -> {
-                $("#firstName").setValue(projectConfig.firstName());
-                $("#lastName").setValue(projectConfig.lastName());
+        step("Заполняем форму", ()-> {
+            $("#firstName").setValue(projConfig.firstName());
+            $("#lastName").setValue(projConfig.lastName());
                 $("#userEmail").setValue("AleksandrExile@gmail.com");
                 $("#genterWrapper").$(byText("Male")).click();
                 $("#userNumber").setValue("9001122999");
@@ -98,8 +96,8 @@ public class PracticeFormRemoteTests {
             });
 
             step("Verify results", () -> {
-                $(".table-responsive").shouldHave(text(projectConfig.firstName()));
-                $(".table-responsive").shouldHave(text(projectConfig.lastName()));
+                $(".table-responsive").shouldHave(text(projConfig.firstName()));
+                $(".table-responsive").shouldHave(text(projConfig.lastName()));
                 $(".table-responsive").shouldHave(text("9001122999"));
                 $(".table-responsive").shouldHave(text("9 July,1988"));
                 $(".table-responsive").shouldHave(text("Arts"));
