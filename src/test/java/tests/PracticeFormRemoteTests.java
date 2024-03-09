@@ -100,7 +100,7 @@ public class PracticeFormRemoteTests {
         step("Verify results", () -> {
         $(".table-responsive").shouldHave(text(projectConfig.firstName()));
         $(".table-responsive").shouldHave(text(projectConfig.lastName()));
-        $(".table-responsive").shouldHave(text("900112299"));
+        $(".table-responsive").shouldHave(text("9001122999"));
         $(".table-responsive").shouldHave(text("9 July,1988"));
         $(".table-responsive").shouldHave(text("Arts"));
         $(".table-responsive").shouldHave(text("Sports"));
