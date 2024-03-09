@@ -31,12 +31,12 @@ public class PracticeFormRemoteTests {
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1920x1080";
         Configuration.pageLoadStrategy = "eager";
-        Configuration.timeout = 100000;
-        /*Configuration.browser = System.getProperty("browser", "chrome");
+        //Configuration.timeout = 100000;
+        Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.browserVersion = System.getProperty("browserVersion", "100.0");
         Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
         Configuration.remote = System.getProperty("browserRemoteUrl");
-         */
+
 
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -65,48 +65,51 @@ public class PracticeFormRemoteTests {
         ProjectConfig projectConfig = ConfigFactory.create(ProjectConfig.class);
 
         step("Open form", () -> {
-        open("/automation-practice-form");
-            $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
+            open("/automation-practice-form");
             SelenideElement bannerRoot = $(".fc-consent-root");
             if (bannerRoot.isDisplayed()) {
                 bannerRoot.$(byText("Consent")).click();
+            }
 
-        executeJavaScript("$('#fixedban').remove()");
-        executeJavaScript("$('footer').remove()");
-
-        step("Fill form", () -> {
-            $("#firstName").setValue(projectConfig.firstName());
-            $("#lastName").setValue(projectConfig.lastName());
-        $("#userEmail").setValue("AleksandrExile@gmail.com");
-        $("#genterWrapper").$(byText("Male")).click();
-        $("#userNumber").setValue("9001122999");
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOptionByValue("6");
-        $(".react-datepicker__year-select").selectOption("1988");
-        $(".react-datepicker__day--009:not(.react-datepicker__day--outside-month)").click();
-        $("#subjectsInput").setValue("Arts").pressEnter();
-        $("#hobbiesWrapper").$(byText("Sports")).click();
-        $("#uploadPicture").uploadFromClasspath("9.png");
-        $("#currentAddress").setValue("www.Leningrad.spb.ru");
-        $("#state").click();
-        $("#stateCity-wrapper").$(byText("Rajasthan")).click();
-        $("#city").click();
-        $("#stateCity-wrapper").$(byText("Jaipur")).click();
-        $("#submit").click();
+            $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
+            executeJavaScript("$('#fixedban').remove()");
+            executeJavaScript("$('footer').remove()");
         });
 
-        step("Verify results", () -> {
-        $(".table-responsive").shouldHave(text(projectConfig.firstName()));
-        $(".table-responsive").shouldHave(text(projectConfig.lastName()));
-        $(".table-responsive").shouldHave(text("9001122999"));
-        $(".table-responsive").shouldHave(text("9 July,1988"));
-        $(".table-responsive").shouldHave(text("Arts"));
-        $(".table-responsive").shouldHave(text("Sports"));
-        $(".table-responsive").shouldHave(text("9.png"));
-        $(".table-responsive").shouldHave(text("www.Leningrad.spb.ru"));
-        $(".table-responsive").shouldHave(text("Rajasthan Jaipur"));
-        });
+            step("Fill form", () -> {
+                $("#firstName").setValue(projectConfig.firstName());
+                $("#lastName").setValue(projectConfig.lastName());
+                $("#userEmail").setValue("AleksandrExile@gmail.com");
+                $("#genterWrapper").$(byText("Male")).click();
+                $("#userNumber").setValue("9001122999");
+                $("#dateOfBirthInput").click();
+                $(".react-datepicker__month-select").selectOptionByValue("6");
+                $(".react-datepicker__year-select").selectOption("1988");
+                $(".react-datepicker__day--009:not(.react-datepicker__day--outside-month)").click();
+                $("#subjectsInput").setValue("Arts").pressEnter();
+                $("#hobbiesWrapper").$(byText("Sports")).click();
+                $("#uploadPicture").uploadFromClasspath("9.png");
+                $("#currentAddress").setValue("www.Leningrad.spb.ru");
+                $("#state").click();
+                $("#stateCity-wrapper").$(byText("Rajasthan")).click();
+                $("#city").click();
+                $("#stateCity-wrapper").$(byText("Jaipur")).click();
+                $("#submit").click();
+            });
 
+            step("Verify results", () -> {
+                $(".table-responsive").shouldHave(text(projectConfig.firstName()));
+                $(".table-responsive").shouldHave(text(projectConfig.lastName()));
+                $(".table-responsive").shouldHave(text("9001122999"));
+                $(".table-responsive").shouldHave(text("9 July,1988"));
+                $(".table-responsive").shouldHave(text("Arts"));
+                $(".table-responsive").shouldHave(text("Sports"));
+                $(".table-responsive").shouldHave(text("9.png"));
+                $(".table-responsive").shouldHave(text("www.Leningrad.spb.ru"));
+                $(".table-responsive").shouldHave(text("Rajasthan Jaipur"));
+            });
+
+        }
     }
-}
+
 
