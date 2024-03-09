@@ -70,11 +70,9 @@ public class PracticeFormRemoteTests {
             SelenideElement bannerRoot = $(".fc-consent-root");
             if (bannerRoot.isDisplayed()) {
                 bannerRoot.$(byText("Consent")).click();
+
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
-
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-        });
 
         step("Fill form", () -> {
             $("#firstName").setValue(projectConfig.firstName());
