@@ -70,6 +70,7 @@ public class PracticeFormRemoteTests {
             if (bannerRoot.isDisplayed()) {
                 bannerRoot.$(byText("Consent")).click();
             }
+        $(".fc-button-lable").$(byText("Consent")).click();
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
 
