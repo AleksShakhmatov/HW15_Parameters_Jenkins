@@ -32,10 +32,11 @@ public class PracticeFormRemoteTests {
         Configuration.browserSize = "1920x1080";
         Configuration.pageLoadStrategy = "eager";
         Configuration.timeout = 100000;
-        Configuration.browser = System.getProperty("browser", "chrome");
+        /*Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.browserVersion = System.getProperty("browserVersion", "100.0");
         Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
         Configuration.remote = System.getProperty("browserRemoteUrl");
+         */
 
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -65,11 +66,10 @@ public class PracticeFormRemoteTests {
 
         step("Open form", () -> {
         open("/automation-practice-form");
-
+            $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
             SelenideElement bannerRoot = $(".fc-consent-root");
             if (bannerRoot.isDisplayed()) {
                 bannerRoot.$(byText("Consent")).click();
-            }
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
 
